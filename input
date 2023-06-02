@@ -1,1 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
+// ANSI escape sequences for text color
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_PINK    "\x1b[35m"
+#define ANSI_COLOR_WHITE   "\x1b[37m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+#define ANSI_BACKGROUND_WHITE "\x1b[47m"
+// Structure to store BMI calculation history
+typedef struct {
+    float height;
+    float weight;
+    float bmi;
+    char classification[20];
+} BMIRecord;
+
+// Function to display colorful header
+void displayHeader() {
+    system("clear"); // Clear the console (for UNIX-like systems)
+    printf("\n");
+
+    printf(ANSI_BACKGROUND_WHITE ANSI_COLOR_BLUE);
+    printf("******************************\n");
+    printf("*                            *\n");
+    printf("*   Welcome to the BMI       *\n");
+    printf("*        Calculator          *\n");
+    printf("*                            *\n");
+    printf("*   Let's calculate your BMI *\n");
+    printf("*                            *\n");
+    printf("******************************\n");
+    printf("\n");
+    printf(ANSI_COLOR_RESET);
+   
+    printf("\n");
+}
+
+// Function to personalize messages
+void personalizeMessage(const char *name) {
+    printf(ANSI_COLOR_PINK "Hello, %s!\n", name);
+    printf("Let's calculate your BMI.\n");
+    printf("\n");
+    printf(ANSI_COLOR_RESET);
+}
+// Function to calculate BMI
+float calculateBMI(float height, float weight, int isMetric) {
+    if (isMetric) {
+        // BMI calculation for metric units (height in meters, weight in kilograms)
+        return weight / (height * height);
+    } else {
+        // BMI calculation for imperial units (height in inches, weight in pounds)
+        return (weight * 703) / (height * height);
+    }
+}
+
+// Function to classify BMI
+void classifyBMI(float bmi, char *classification) {
+    if (bmi < 18.5) {
+        sprintf(classification, "Underweight");
+    } else if (bmi < 25.0) {
+        sprintf(classification, "Normal weight");
+    } else if (bmi < 30.0) {
+        sprintf(classification, "Overweight");
+    } else {
+        sprintf(classification, "Obese");
+    }
+}
+
+
+int main() {
+    char name[50]; // Variable to store the user's name
+    printf(ANSI_COLOR_BLUE "Enter your name: ");
+    scanf("%s", name);
+    printf(ANSI_COLOR_RESET);
+
+    displayHeader();
+    personalizeMessage(name);
+
+   BMIRecord history[10]; // Assuming maximum of 10 BMI records
+    int recordCount = 0;
+
+    int isMetric = 0; // Flag to check if metric units are used
+
+
+    return 0;
+}
